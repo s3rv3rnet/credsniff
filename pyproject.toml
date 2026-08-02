@@ -1,0 +1,129 @@
+[project]
+name = "credsniff"
+version = "0.1.0"
+description = "A fast, local, zero-cloud secret scanner. Catch leaked API keys and tokens before they reach a commit."
+readme = "README.md"
+authors = [
+    { name = "s3rv3rnet", email = "manikanta.maddali.coding@gmail.com" }
+]
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+keywords = ["security", "secrets", "scanner", "credentials", "pre-commit", "devsecops"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pyyaml>=6.0.3",
+    "rich>=15.0.0",
+    "typer>=0.27.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/s3rv3rnet/credsniff"
+Repository = "https://github.com/s3rv3rnet/credsniff"
+Issues = "https://github.com/s3rv3rnet/credsniff/issues"
+Changelog = "https://github.com/s3rv3rnet/credsniff/blob/main/CHANGELOG.md"
+
+[project.scripts]
+credsniff = "credsniff:main"
+
+[build-system]
+requires = ["uv_build>=0.12.1,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.165.0",
+    "mypy>=2.3.0",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.1",
+    "types-pyyaml>=6.0.12.20260724",
+]
+
+# ---------------------------------------------------------------- ruff (lint + format)
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+# ruff also formats Python code blocks inside Markdown; our docs use illustrative
+# snippets that are intentionally not valid standalone modules.
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",    # pycodestyle
+    "F",         # pyflakes
+    "I",         # isort (import sorting)
+    "N",         # pep8-naming
+    "UP",        # pyupgrade  (modernise syntax for our min Python)
+    "B",         # bugbear    (likely bugs)
+    "S",         # bandit     (security lint)  <- matters for us
+    "A",         # builtin shadowing
+    "C4",        # comprehension style
+    "PTH",       # force pathlib over os.path
+    "RET",       # return simplification
+    "SIM",       # simplification
+    "ARG",       # unused arguments
+    "TC",        # type-checking imports
+    "D",         # pydocstyle (docstrings)
+    "ANN",       # missing type annotations
+    "RUF",       # ruff-specific
+]
+ignore = [
+    "D203",   # conflicts with D211 (blank line before class docstring)
+    "D213",   # conflicts with D212 (multi-line summary position)
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "S101",    # assert is the whole point of a test
+    "D",       # docstrings not required in tests
+    "ANN",     # annotations not required in tests
+    "S105",    # hardcoded "password"-ish strings ARE our fixtures
+    "S106",
+]
+
+# ---------------------------------------------------------------- mypy
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+disallow_any_unimported = true
+show_error_codes = true
+files = ["src", "tests"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+# ---------------------------------------------------------------- pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+xfail_strict = true
+
+# ---------------------------------------------------------------- coverage
+[tool.coverage.run]
+source = ["src/credsniff"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]

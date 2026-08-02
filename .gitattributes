@@ -1,0 +1,15 @@
+# Normalise line endings to LF everywhere, regardless of each contributor's
+# core.autocrlf setting. NFR-5 says we work on macOS/Linux/Windows; that starts
+# with everyone seeing byte-identical files.
+* text=auto eol=lf
+
+# Test fixtures are scanned byte-for-byte — never let git rewrite them.
+tests/fixtures/** -text
+
+# Generated / reviewed-rarely files: collapse them in PR diffs.
+uv.lock linguist-generated=true -diff
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.gif binary
