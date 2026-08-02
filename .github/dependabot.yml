@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # Python dependencies (uv reads/writes pyproject.toml + uv.lock)
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+
+  # GitHub Actions — we pin to commit SHAs, so this is how they get bumped.
+  # A stale pinned action is a supply-chain risk, not just tech debt.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"

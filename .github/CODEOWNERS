@@ -1,0 +1,9 @@
+# Default owner for everything in the repo.
+* @s3rv3rnet
+
+# Security-sensitive areas: detection rules, the scanner's file handling, the
+# release pipeline. Changes here always need an explicit review.
+/src/credsniff/rules.py     @s3rv3rnet
+/src/credsniff/scanner.py   @s3rv3rnet
+/.github/workflows/         @s3rv3rnet
+/SECURITY.md                @s3rv3rnet

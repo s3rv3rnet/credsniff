@@ -1,0 +1,77 @@
+name: Bug report
+description: Something is broken or behaves unexpectedly
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **Never paste a real secret into this issue.** Issues are public and are
+        scraped by bots. Redact anything sensitive — `AKIA****************` is enough
+        for us to work with.
+
+        For security vulnerabilities in credsniff itself, **do not open an issue** —
+        follow [SECURITY.md](../blob/main/SECURITY.md) instead.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you get instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: The exact command you ran, and a minimal sample it was run against.
+      placeholder: |
+        1. Create a file containing: api_key = "REDACTED"
+        2. Run: credsniff .
+        3. Observed: ...
+      render: shell
+    validations:
+      required: true
+
+  - type: input
+    id: rule-id
+    attributes:
+      label: Rule ID (if relevant)
+      description: For a false positive or false negative, which rule was involved?
+      placeholder: aws-access-key-id
+
+  - type: input
+    id: version
+    attributes:
+      label: credsniff version
+      description: Output of `credsniff --version`
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      placeholder: "3.12.3"
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Before submitting
+      options:
+        - label: This issue contains no real credentials.
+          required: true
+        - label: I searched existing issues for a duplicate.
+          required: true

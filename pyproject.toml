@@ -44,6 +44,7 @@ build-backend = "uv_build"
 dev = [
     "hypothesis>=6.165.0",
     "mypy>=2.3.0",
+    "pre-commit>=4.6.1",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ruff>=0.16.1",
@@ -104,10 +105,9 @@ warn_unreachable = true
 disallow_any_unimported = true
 show_error_codes = true
 files = ["src", "tests"]
-
-[[tool.mypy.overrides]]
-module = "tests.*"
-disallow_untyped_defs = false
+# Note: tests/ is intentionally not a package, so mypy sees modules as `test_foo`,
+# not `tests.test_foo` — a `module = "tests.*"` override would silently never match.
+# We type-check tests under the same strict settings instead (NFR-4).
 
 # ---------------------------------------------------------------- pytest
 [tool.pytest.ini_options]

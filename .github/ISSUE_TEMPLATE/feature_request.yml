@@ -1,0 +1,60 @@
+name: Feature request
+description: Suggest a capability or a new detection rule
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before suggesting: credsniff is **local-only by design** and will never make a
+        network call. Features requiring one (live key verification, telemetry, update
+        checks) are out of scope — see [spec.md](../blob/main/spec.md) §3.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe the situation you hit, not just the feature you want.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type of request
+      options:
+        - New detection rule
+        - CLI / output change
+        - Performance
+        - Integration (CI, pre-commit, editor)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: samples
+    attributes:
+      label: For a new rule — samples
+      description: |
+        Strings that must match, and near-miss strings that must NOT match.
+        **Use fake, provably dead values only.**
+      placeholder: |
+        should match:     acme_0123456789abcdef0123456789abcdef
+        should not match: acme_notahexstring
+      render: text
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Before submitting
+      options:
+        - label: This request contains no real credentials.
+          required: true
+        - label: This does not require credsniff to make a network call.
+          required: true
