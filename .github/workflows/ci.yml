@@ -14,10 +14,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  # Fail the build if uv.lock is out of date with pyproject.toml, rather than
-  # silently resolving something different from what contributors tested.
-  UV_FROZEN: "1"
+# Note: every `uv sync` below passes `--locked`, which fails the build if uv.lock is
+# stale relative to pyproject.toml — so CI can never silently resolve something
+# different from what contributors tested. (Do not also set UV_FROZEN: the two are
+# mutually exclusive. `--frozen` = use the lock as-is; `--locked` = assert it's current.)
 
 jobs:
   lint:
