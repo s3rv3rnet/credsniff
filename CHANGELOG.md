@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Core data types in `models.py`: `Severity` (a `StrEnum`, ordered via `rank`),
+  the immutable `Rule` and `Finding` records, and the mutable `ScanResult`
+  carrying findings, counters, and the FR-11 exit code.
 - Project scaffolding: `src/` layout, uv-managed dependencies with a committed
   `uv.lock`, and PEP 621 metadata.
 - Quality tooling wired from the start: `ruff` (including bandit security rules),
